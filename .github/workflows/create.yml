@@ -1,0 +1,43 @@
+name: Terraform Apply
+
+on:
+  push:
+    branches:
+      - main # Replace with the branch you want to trigger the workflow on
+
+jobs:
+  terraform-apply:
+    name: "Terraform Apply"
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: 'ap-south-1'
+      
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.0.0 # Replace with your desired Terraform version
+
+    - name: Initialize Terraform
+      run: terraform init
+
+    - name: Plan Terraform
+      run: terraform plan 
+
+    - name: Apply Terraform
+      run: terraform apply -auto-approve
+
+  
+    
