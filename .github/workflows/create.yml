@@ -1,9 +1,9 @@
 name: Terraform Apply
 
-on:
-  push:
-    branches:
-      - main # Replace with the branch you want to trigger the workflow on
+# on:
+#   push:
+#     branches:
+#       - main # Replace with the branch you want to trigger the workflow on
 
 jobs:
   terraform-apply:
@@ -32,12 +32,15 @@ jobs:
 
     - name: Initialize Terraform
       run: terraform init
+      working-directory: module/
 
     - name: Plan Terraform
       run: terraform plan 
+      working-directory: module/
 
     - name: Apply Terraform
       run: terraform apply -auto-approve
+      working-directory: module/
 
   
     
