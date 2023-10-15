@@ -1,9 +1,9 @@
 name: Terraform Apply
 
-# on:
-#   push:
-#     branches:
-#       - main # Replace with the branch you want to trigger the workflow on
+on:
+  push:
+    branches:
+      - main 
 
 env:
   AWS_REGION: ap-south-1
@@ -26,8 +26,6 @@ jobs:
 
     - name: Set up Terraform
       uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: 1.0.0 # Replace with your desired Terraform version
 
     - name: Initialize Terraform
       run: terraform init
