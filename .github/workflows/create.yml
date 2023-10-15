@@ -10,8 +10,6 @@ jobs:
     name: "Terraform Apply"
     runs-on: ubuntu-latest
     env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: 'ap-south-1'
       
     steps:
@@ -21,8 +19,8 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
     - name: Set up Terraform
@@ -35,11 +33,11 @@ jobs:
       working-directory: module/
 
     - name: Plan Terraform
-      run: terraform plan 
+      run: terraform plan -var-file=prerna.tfvars -out=tfplan
       working-directory: module/
 
     - name: Apply Terraform
-      run: terraform apply -auto-approve
+      run: terraform apply -auto-approve "tfplan"
       working-directory: module/
 
   
