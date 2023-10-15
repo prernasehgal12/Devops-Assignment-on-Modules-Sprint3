@@ -1,16 +1,17 @@
 name: Terraform Apply
 
-on:
-  push:
-    branches:
-      - main # Replace with the branch you want to trigger the workflow on
+# on:
+#   push:
+#     branches:
+#       - main # Replace with the branch you want to trigger the workflow on
+
+env:
+  AWS_REGION: ap-south-1
 
 jobs:
   terraform-apply:
-    name: "Terraform Apply"
     runs-on: ubuntu-latest
-    env:
-      AWS_REGION: 'ap-south-1'
+   
       
     steps:
     - name: Checkout code
